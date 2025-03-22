@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>随机点名器</title>
+<style type="text/css">
+    /* CSS 样式 */
+    *{margin:0;padding:0;list-style-type:none;}
+    a,img{border:0;}
+    body{font:12px/180% "Microsoft YaHei","微软雅黑", "宋体";}
+    #bodybj{background:url(images.jpg) no-repeat center top;}
+    #box{margin:auto;width:660px;font-size:66px;height:94px;line-height:94px;overflow:hidden;color:#138eee;text-align:center;padding:0 30px;margin-top:200px;}
+    #bt{margin:auto;width:200px;text-align:center;margin-top:75px;color:#000;font-size:25px;line-height:28px;cursor:pointer;}
+</style>
+<script type="text/javascript">
+    // JavaScript 代码
+
+  var  namelists ="{{ namelists }}";
+
+  var namelist =namelists.split(",");
+    console.log(namelist);
+    var mytime = null;
+
+    function doit() {
+        var bt = document.getElementById("bt1");
+        if (mytime === null) {
+            bt.innerHTML = "停止点名";
+            show();
+        } else {
+            bt.innerHTML = "开始点名";
+            clearTimeout(mytime);
+            mytime = null;
+        }
+    }
+    function goBack() {
+         window.history.back();
+    }
+
+    function show() {
+        var box = document.getElementById("box");
+        var num = Math.floor(Math.random() * 100000) % namelist.length;
+        box.innerHTML = namelist[num];
+        mytime = setTimeout(show, 99);
+    }
+</script>
+</head>
+<body id="bodybj">
+<div id="box">同学们！准备好点名了吗？</div>
+  <div class="nr button-container">
+    <button class ="bto button" id="bt1" onClick="doit()">
+        开始点名
+    </button>
+    <button class ="bto2 button"  onClick="goBack()">
+        返回
+    </button>
+  </div>
+  <div class="nr">
+
+  </div>
+</body>
+<style>
+.nr{
+  margin:auto;width:200px;text-align:center;margin-top:75px;color:#000;font-size:25px;line-height:28px;cursor:pointer;
+}
+
+.bto{
+  margin-top: 25px;
+  font-size:24px;
+  float: left;
+  color: #0079d7;
+  padding :10px;
+}
+.bto2{
+  margin-top: 25px;
+
+  font-size:24px;
+  float: left;
+  color: #0079d7;
+  padding :10px;
+}
+.button-container {
+  display: flex;
+  justify-content: center; /* 水平居中 */
+}
+
+.button {
+  margin: 15px; /* 按钮间距 */
+    position: relative;
+    background-color: #ffffff;
+    border: 2px solid #008cba;
+    border-radius: 8px;
+    font-size: 18px;
+    color: #87cefa;
+    padding: 8px 16px;
+    margin: 14px 2px;
+    text-align: center;
+    cursor: pointer;
+    transition: background-color 0.4s ease;
+}
+.button:hover {
+    background-color: #03e9f4;
+    color: black;
+}
+</style>
+</html>

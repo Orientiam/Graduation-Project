@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>课堂信息管理系统</title>
+    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+	<script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+	<script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="../../static/css/my.css">
+</head>
+<body>
+<header class="col-xs-12 navbar navbar-default">
+    <div class="navbar-header">
+		<a class="navbar-brand" href="#">课程问题查询</a>
+	</div>
+	<div class="rr">
+            <ul class="nav navbar-nav">
+                <li><a  href="{{ url_for('teacher.home') }}">返回首页</a></li>
+            </ul>
+    </div>
+</header>
+<main>
+<form action="{{ url_for('teacher.select_IssuesList') }}" method="post">
+        课程名称：
+
+        <select class="dd" name="c_id">
+            <option></option>
+        {% for dict in dict %}
+            <option value="{{ dict.c_id }}">{{ dict.c_name }}</option>
+        {% endfor %}
+        </select>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        时间：
+        <input type="date" class="dd" name="time">
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <input type="submit" class="btn btn-primary" value="查询">
+
+    </form>
+<br>
+<br>
+
+<br><br>
+
+
+<div class="container-fluid">
+{% if issuses %}
+    <div  id="accordion">
+           <table class="table table-striped">
+                <th>学号</th>
+			    <th>姓名</th>
+			    <th>课程名</th>
+                <th>消息内容</th>
+                <th>时间</th>
+
+    {% for issue in issuses %}
+        {# 一个课程#}
+
+
+                <h4 class="panel-title">
+                    <a data-toggle="collapse" data-parent="#accordion" href="#{{ issue.s_id }}">
+                        <tr>
+                        <td>{{ issue.s_id }}  </td>
+                        <td>{{ issue.name }}  </td>
+                        <td>{{ issue.c_name }}  </td>
+                        <td>{{ issue.msg }}  </td>
+                        <td>{{ issue.time }}  </td>
+                        </tr>
+
+
+                    </a>
+                </h4>
+
+
+    {% endfor %}
+
+{% endif %}
+</div>
+</div>
+
+</main>
+
+</body>
+<script>
+
+</script>
+</html>

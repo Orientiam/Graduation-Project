@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>WebSocket</title>
+    <script src="https://cdn.staticfile.org/jquery/3.6.1/jquery.min.js"></script>
+    <script src="https://cdn.staticfile.org/socket.io/4.5.2/socket.io.min.js"></script>
+</head>
+<body>
+<h1>Flask-SocketIO Quickstart</h1>
+<h2 id="sid">客户端</h2>
+<h2>发消息</h2>
+<input id="emit_data" value="Hello World!">
+<button id="emit">发消息</button>
+<h2>收消息</h2>
+<div id="log"></div>
+<script>
+   //var socket = io();
+    var socket = io("ws://127.0.0.1:5000");
+
+    socket.on("connect", function () {
+        $("#sid").text("客户端：" + socket.id)
+    });
+
+    $("#emit").click(function () {
+        socket.emit("message", {data: $("#emit_data").val()});
+   });  // 点击按钮发消息
+
+    socket.on("my_response", function (msg) {
+        $("#log").append("<p>" + msg.data + "</p>");  // 收消息
+    });
+</script>
+</body>
+</html>

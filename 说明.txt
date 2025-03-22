@@ -1,0 +1,36 @@
+环境说明：python3.7
+
+项目运行
+0、下载安装MySQL数据库，安装Navicat软件，连接数据库，新建数据库并导入数据库文件test .sql
+       MySQL默认账号root  密码123456
+1、pycharm打开整个项目文件夹
+2、配置本地Python环境 （选择自己的python编译器，python3.7）
+3、安装依赖库，在终端窗口（Teminal）输入命令：
+pip install -r requirements.txt -i https://pypi.mirrors.ustc.edu.cn/simple/
+pip install dlib-19.17.99-cp37-cp37m-win_amd64.whl
+
+4、运行run.py  启动项目
+5、浏览器打开网站：
+http://127.0.0.1:5000/logout
+http://127.0.0.1:5000/student/# 
+http://127.0.0.1:5000/teacher/home# 
+
+
+
+
+flask-sqlalchemy==2.5.1
+SQLALchemy==1.4.32
+PyQt5
+
+
+
+
+
+学生：2017317210102   密码：123456
+
+教师：17210001     密码： 123456
+
+管理员：00000001    密码：  123456
+
+
+签到方法：登录教师端，开启摄像头识别，将“测试人脸图片”文件夹的图片放到手机，手机展示这些图片对准摄像头识别签到，签到成功旁边会有显示，多试几张。 
