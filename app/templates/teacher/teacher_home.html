@@ -6,6 +6,7 @@
     <title>课堂信息管理系统 - 教师端</title>
     <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/4.7.0/css/font-awesome.min.css">
+
     <style>
         body {
             font-family: 'Microsoft YaHei', sans-serif;
@@ -320,24 +321,24 @@
             <div class="col-md-12">
                 <ul class="infolist">
                     <li>
-                        <span>您可以开启实时签到操作</span>
+                        <span>开启实时签到操作</span>
                         <a class="ibtn" href="{{ url_for('teacher.all_course') }}">签到</a>
                     </li>
                     <li>
-                        <span>您可以查看学生照片录入详情</span>
+                        <span>查看学生照片录入详情</span>
                         <a class="ibtn" href="{{ url_for('teacher.select_sc') }}">查看</a>
                     </li>
                     <li>
-                        <span>您可以查看或修改所授课程下的考勤记录</span>
+                        <span>查看或修改所授课程下的考勤记录</span>
                         <a class="ibtn" href="{{ url_for('teacher.select_all_records') }}">查询考勤</a>
                     </li>
                     <li>
-                        <span>您可以进行密码修改</span>
+                        <span>进行密码修改</span>
                         <a class="ibtn" href="{{ url_for('teacher.update_password') }}">修改密码</a>
                     </li>
                     {% if flag == '0' %}
                     <li>
-                        <span>您可以对所有账户进行管理</span>
+                        <span>对所有账户进行管理</span>
                         <a class="ibtn" href="{{ url_for('teacher.select_all_teacher') }}">教师账户</a>
                         <a class="ibtn" href="{{ url_for('teacher.select_all_student') }}">学生账户</a>
                     </li>
