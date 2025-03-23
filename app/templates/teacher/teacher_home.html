@@ -1,405 +1,414 @@
 <!DOCTYPE html>
-<html>
+<html lang="zh-CN">
 <head>
-	<meta charset="utf-8">
-	<title>课堂信息管理系统</title>
-	<link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
-    <link href="../../static/css/style1.css" rel="stylesheet" />
-    <script type="text/javascript" src="../../static/js/echarts.min.js"></script>
-
-	<script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
-	<script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>课堂信息管理系统 - 教师端</title>
+    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/4.7.0/css/font-awesome.min.css">
     <style>
-        .logout{float: right}
+        body {
+            font-family: 'Microsoft YaHei', sans-serif;
+            background-color: #f5f5f5;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            margin: 0;
+        }
+
+        .navbar {
+            background-color: #2c3e50;
+            border-radius: 0;
+            margin-bottom: 0;
+        }
+
+        .navbar-brand {
+            color: #ecf0f1 !important;
+        }
+
+        .navbar-nav > li > a {
+            color: #ecf0f1 !important;
+        }
+
+        .logout {
+            float: right;
+            margin-left: 15px;
+        }
+
+        .container22 {
+            background-color: white;
+            margin-top: 20px;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .welinfo {
+            padding: 15px;
+            margin-bottom: 20px;
+            background-color: #f8f9fa;
+            border-left: 4px solid #3498db;
+            border-radius: 3px;
+        }
+
+        .welinfo img {
+            width: 24px;
+            height: 24px;
+            margin-right: 10px;
+        }
+
+        .infolist {
+            list-style: none;
+            padding: 0;
+        }
+
+        .infolist li {
+            padding: 10px 0;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .infolist span {
+            color: #7f8c8d;
+        }
+
+        .infolist a {
+            background-color: #3498db;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 3px;
+            text-decoration: none;
+        }
+
+        .infolist a:hover {
+            background-color: #2980b9;
+        }
+
+        .xline {
+            height: 1px;
+            background-color: #eee;
+            margin: 20px 0;
+        }
+
+        #container {
+            height: 300px;
+            width: 100%;
+        }
+
+        .flash {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px;
+            background-color: #dff0d8;
+            color: #3c763d;
+            border-radius: 4px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+        }
+
+        .content {
+            position: relative;
+            height: 200px;
+            overflow: hidden;
+            background-color: #f9f9f9;
+            border: 1px solid #eee;
+            border-radius: 4px;
+        }
+
+        .content div {
+            position: absolute;
+            white-space: nowrap;
+            font-size: 14px;
+        }
+
+        .slider {
+            font-family: 'Microsoft YaHei';
+            color: #777777;
+            font-size: 12px;
+            padding: 0 15px 0 0;
+        }
+
+        input[type="checkbox"] {
+            margin: 0;
+            padding: 0;
+            vertical-align: middle;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border: 1px solid #999;
+        }
+
+        input[type="checkbox"]:checked {
+            background-color: #3498db;
+        }
+
+        label {
+            display: inline-flex;
+            align-items: center;
+            margin-left: 10px;
+        }
+        .ibtn {
+            z-index: 10;
+            position: relative;
+        }
+        footer {
+            text-align: center;
+            padding: 20px;
+            background-color: #2c3e50;
+            color: white;
+            width: 100%;
+        }
     </style>
 </head>
 <body>
-
-<nav class="navbar navbar-default" role="navigation">
-	<div class="container-fluid">
-	<div class="navbar-header">
-		<a class="navbar-brand" href="#">教师端</a>
-	</div>
-	<div>
-		<ul class="nav navbar-nav">
-            <li class="dropdown">
-				<a href="#" class="dropdown-toggle" data-toggle="dropdown">
-					课程管理
-					<b class="caret"></b>
-				</a>
-				<ul class="dropdown-menu">
-					<li><a href="{{ url_for('teacher.course_management') }}">课程信息</a></li>
-                    <li class="divider"></li>
-                    <li><a href="{{ url_for('teacher.all_course') }}">课程签到</a></li>
-
-				</ul>
-			</li>
-			<li class="dropdown">
-				<a href="#" class="dropdown-toggle" data-toggle="dropdown">
-					学生管理
-					<b class="caret"></b>
-				</a>
-				<ul class="dropdown-menu">
-					<li><a href="{{ url_for('teacher.select_all_records') }}">考勤记录</a></li>
-                    <li class="divider"></li>
-                    <li><a href="{{ url_for('teacher.select_sc') }}">学生照片录入详情</a></li>
-                       <li class="divider"></li>
-                    <li><a href="{{ url_for('teacher.select_IssuesList_all') }}">课堂问题管理</a></li>
-				</ul>
-			</li>
-
-
-
-            {% if flag=='0' %}
-            <li class="dropdown">
-				<a href="#" class="dropdown-toggle" data-toggle="dropdown">
-					账号管理
-					<b class="caret"></b>
-				</a>
-				<ul class="dropdown-menu">
-					<li><a href="{{ url_for('teacher.select_all_teacher') }}">教师</a></li>
-                    <li class="divider"></li>
-                    <li><a href="{{ url_for('teacher.select_all_student') }}">学生</a></li>
-				</ul>
-			</li>
-            {% endif %}
-		</ul>
-	</div>
-        <div class="logout">
-        <ul class="nav navbar-nav">
-            <li><a href="{{ url_for('logout') }}">退出</a></li>
-        </ul>
-        </div>
-        <div class="logout">
-        <ul class="nav navbar-nav">
-            <li><a href="{{ url_for('teacher.update_password') }}">修改密码</a></li>
-        </ul>
-        </div>
-        <div class="logout" style="margin-top: 14px;  ">
-                <input style="margin-top: 2px;" type="checkbox" id="toggle" checked onchange="toggleElement()">
-	             <label for="toggle" style="margin-top: 2px;">   <span class="slider"> 弹幕</span>
-                </label>
-			</div>
-	</div>
-{% for message in get_flashed_messages() %}
-    <div  align="center" class="flash" id="message" role="alert">{{ message }}</div>
-{% endfor %}
-</nav>
-
-
-<div class="container22" id ="barragenewe" style="display:block;"  >
-    <div id="content" class="content"></div>
-    <div class="content-opt">
-
-    </div>
-</div>
-
-
-
-<div class="mainindex" style="margin-left: 5%;width: 90%;float: left;background-color: ghostwhite">
-
-
-        <div class="welinfo" style="width: 100%;float: left">
-            <span><img src="../../static/images/sun.png" alt="天气" /></span>
-            <b>{{ name }}，欢迎使用课堂信息管理系统</b>
-        </div>
-
-        <div class="welinfo" style="width: 100%;float: left">
-            <span><img src="../../static/images/time.png" alt="时间" /></span>
-            <i>您上次登录的时间：{{ before }}</i> （不是您登录的？<a href="{{ url_for('teacher.update_password') }}">请点这里</a>）
-        </div>
-
-        <div class="xline" style="width: 100%;float: left"></div>
-        <div class="welinfo" style="width: 100%;float: left">
-        <span><img src="../../static/images/d03.png" alt="提醒" /></span>
-        <b>&nbsp&nbsp您的课程</b>
-        </div>
-        <div style="width: 100%;float: left">
-
-            <div class="welinfo" style="width: 25%;float:left;">
-                <ul class="infolist">
-                {% if courses %}
-                {% for c,n in courses.items() %}
-                    <li><span>[{{ c.c_id }}]{{ c.c_name }} ({{ c.flag }})</span></li>
-                {% endfor %}
-                {% else %}
-                <li><span>目前没有授课，您可以新建课程。</span></li>
-                {% endif %}
-                    <li><a class="ibtn" href="{{ url_for('teacher.course_management') }}">管理</a></li>
+    <nav class="navbar navbar-default" role="navigation">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="#">
+                    <i class="fa fa-university"></i> 教师端
+                </a>
+            </div>
+            <div>
+                <ul class="nav navbar-nav">
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            <i class="fa fa-book"></i> 课程管理
+                            <b class="caret"></b>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a href="{{ url_for('teacher.course_management') }}"><i class="fa fa-list"></i> 课程信息</a></li>
+                            <li class="divider"></li>
+                            <li><a href="{{ url_for('teacher.all_course') }}"><i class="fa fa-qrcode"></i> 课程签到</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            <i class="fa fa-users"></i> 学生管理
+                            <b class="caret"></b>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a href="{{ url_for('teacher.select_all_records') }}"><i class="fa fa-calendar-check-o"></i> 考勤记录</a></li>
+                            <li class="divider"></li>
+                            <li><a href="{{ url_for('teacher.select_sc') }}"><i class="fa fa-camera"></i> 学生照片录入详情</a></li>
+                            <li class="divider"></li>
+                            <li><a href="{{ url_for('teacher.select_IssuesList_all') }}"><i class="fa fa-question-circle"></i> 课堂问题管理</a></li>
+                        </ul>
+                    </li>
+                    {% if flag == '0' %}
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            <i class="fa fa-cog"></i> 账号管理
+                            <b class="caret"></b>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a href="{{ url_for('teacher.select_all_teacher') }}"><i class="fa fa-user"></i> 教师</a></li>
+                            <li class="divider"></li>
+                            <li><a href="{{ url_for('teacher.select_all_student') }}"><i class="fa fa-graduation-cap"></i> 学生</a></li>
+                        </ul>
+                    </li>
+                    {% endif %}
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            <i class="fa fa-comment"></i> 弹幕页
+                            <b class="caret"></b>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a href="{{ url_for('teacher.barrage') }}"><i class="fa fa-comments"></i> 弹幕管理</a></li>
+                        </ul>
+                    </li>
                 </ul>
-
             </div>
-
-            {% if courses %}
-            <div style="width:75%;float: left;height: 300px" id="container"  >
-{#                <p>#}
-{#                 <canvas id="container" width="290" height="200"> </canvas>#}
-{#                </p>#}
+            <div class="logout">
+                <ul class="nav navbar-nav">
+                    <li><a href="{{ url_for('logout') }}"><i class="fa fa-sign-out"></i> 退出</a></li>
+                </ul>
             </div>
-        {% endif %}
-
+            <div class="logout">
+                <ul class="nav navbar-nav">
+                    <li><a href="{{ url_for('teacher.update_password') }}"><i class="fa fa-lock"></i> 修改密码</a></li>
+                </ul>
+            </div>
+            <!--<div class="logout" style="margin-top: 14px;">
+                <input style="margin-top: 2px;" type="checkbox" id="toggle" checked onchange="toggleElement()">
+                <label for="toggle" style="margin-top: 2px;">
+                    <span class="slider"> 弹幕</span>
+                </label>
+            </div>-->
         </div>
+    </nav>
 
+    {% for message in get_flashed_messages() %}
+        <div align="center" class="flash" id="message" role="alert">{{ message }}</div>
+    {% endfor %}
 
-    <div class="xline" style="width: 100%;float: left"></div>
-    <div class="box" style="width: 100%;float: left"></div>
+    <!--<div class="container22" id="barragenewe" style="display: block;">
+        <div id="content" class="content"></div>
+        <div class="content-opt"></div>
+    </div>
+    -->
 
-    <div class="welinfo" style="width: 100%;float: left">
-    <span><img src="../../static/images/dp.png" alt="提醒" /></span>
-    <b>课堂信息管理系统设置</b>
+    <div class="container22" style="margin-left: 5%; width: 90%; float: left;">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="welinfo">
+                    <i class="fa fa-sun-o"></i>
+                    <b>{{ name }}，欢迎使用课堂信息管理系统</b>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="welinfo">
+                    <i class="fa fa-clock-o"></i>
+                    <i>您上次登录的时间：{{ before }}</i> （不是您登录的？<a href="{{ url_for('teacher.update_password') }}">请点这里</a>）
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="welinfo">
+                    <i class="fa fa-info-circle"></i>
+                    <b>&nbsp;&nbsp;您的课程</b>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3">
+                <div class="welinfo">
+                    <ul class="infolist">
+                        {% if courses %}
+                        {% for c, n in courses.items() %}
+                        <li>
+                            <span>[{{ c.c_id }}] {{ c.c_name }} ({{ c.flag }})</span>
+                        </li>
+                        {% endfor %}
+                        {% else %}
+                        <li>
+                            <span>目前没有授课，您可以新建课程。</span>
+                        </li>
+                        {% endif %}
+                        <li>
+                            <a class="ibtn" href="{{ url_for('teacher.course_management') }}"> 管理 </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            {% if courses %}
+            <div style="width: 100%; margin: 5 auto; height: 500px; position: relative;" id="container"></div>
+            {% endif %}
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="xline"></div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="welinfo">
+                    <i class="fa fa-cogs"></i>
+                    <b>课堂信息管理系统设置</b>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <ul class="infolist">
+                    <li>
+                        <span>您可以开启实时签到操作</span>
+                        <a class="ibtn" href="{{ url_for('teacher.all_course') }}">签到</a>
+                    </li>
+                    <li>
+                        <span>您可以查看学生照片录入详情</span>
+                        <a class="ibtn" href="{{ url_for('teacher.select_sc') }}">查看</a>
+                    </li>
+                    <li>
+                        <span>您可以查看或修改所授课程下的考勤记录</span>
+                        <a class="ibtn" href="{{ url_for('teacher.select_all_records') }}">查询考勤</a>
+                    </li>
+                    <li>
+                        <span>您可以进行密码修改</span>
+                        <a class="ibtn" href="{{ url_for('teacher.update_password') }}">修改密码</a>
+                    </li>
+                    {% if flag == '0' %}
+                    <li>
+                        <span>您可以对所有账户进行管理</span>
+                        <a class="ibtn" href="{{ url_for('teacher.select_all_teacher') }}">教师账户</a>
+                        <a class="ibtn" href="{{ url_for('teacher.select_all_student') }}">学生账户</a>
+                    </li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="xline"></div>
+            </div>
+        </div>
     </div>
 
-    <ul class="infolist" style="width: 100%;float: left">
-        <li><span>您可以开启实时签到操作</span><a class="ibtn" href="{{ url_for('teacher.all_course') }}">签到</a></li>
-        <li><span>您可以查看学生照片录入详情</span><a class="ibtn" href="{{ url_for('teacher.select_sc') }}">查看</a></li>
-        <li><span>您可以查看或修改所授课程下的考勤记录</span><a class="ibtn" href="{{ url_for('teacher.select_all_records') }}">查询考勤</a></li>
-        <li><span>您可以进行密码修改</span><a class="ibtn" href="{{ url_for('teacher.update_password') }}">修改密码</a></li>
-    {% if flag=='0' %}
-        <li><span>您可以对所有账户进行管理</span>
-			<a class="ibtn" href="{{ url_for('teacher.select_all_teacher') }}">教师账户</a>
-            <a class="ibtn" href="{{ url_for('teacher.select_all_student') }}">学生账户</a>
-        </li>
-    {% endif %}
-    </ul>
-
-    <div class="xline" style="width: 100%;float: left"></div>
-
-
-
-    </div>
-
-
-<script>$(".flash").fadeOut(2000);</script>
-<script>
-    function toggleElement() {
-  var checkbox = document.getElementById("toggle");
-  var element = document.getElementById("barragenewe");
-  if (checkbox.checked) {
-    element.style.display = "block"; // 显示元素
-  } else {
-    element.style.display = "none"; // 隐藏元素
-  }
-}
-
-</script>
-<script type="text/javascript">
-			var dom = document.getElementById("container");
-			var myChart = echarts.init(dom);
-
-var option;
-
-option = {
-    title: {
-        {#text: '本月签到统计',#}
-        subtext: '学生统计/人',
-        left: 'center'
-    },
-    tooltip: {
-        trigger: 'item'
-    },
-    legend: {
-        orient: 'vertical',
-        left: 'right'
-    },
-    series: [
-        {
-            type: 'pie',
-            radius: '50%',
-            data: [
-                {% for c,n in courses.items() %}
-                {value: {{ n }}, name: '{{c.c_name}}'},
-                {% endfor %}
-            ],
-            emphasis: {
-                itemStyle: {
-                    shadowBlur: 10,
-                    shadowOffsetX: 0,
-                    shadowColor: 'rgba(0, 0, 0, 0.5)'
-                }
-            }
-        }
-    ]
-};
-
-option && myChart.setOption(option);
-
-</script>
-    <script src="https://cdn.staticfile.org/jquery/3.6.1/jquery.min.js"></script>
+    <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../../static/js/echarts.min.js"></script>
     <script src="https://cdn.staticfile.org/socket.io/4.5.2/socket.io.min.js"></script>
-<script>
- //var socket = io();
+    <script>
+        $(".flash").fadeOut(2000);
 
-
-//js
-(function () {
-     class Barrage {
-        constructor(id) {
-            this.domList = [];
-            this.dom = document.querySelector('#' + id);
-            if (this.dom.style.position == '' || this.dom.style.position == 'static') {
-                this.dom.style.position = 'relative';
-            }
-            this.dom.style.overflow = 'hidden';
-            let rect = this.dom.getBoundingClientRect();
-            this.domWidth = rect.right - rect.left;
-            this.domHeight = rect.bottom - rect.top;
+        function toggleElement() {
+            var checkbox = document.getElementById("toggle");
+            var element = document.getElementById("barragenewe");
+            element.style.display = checkbox.checked ? "block" : "none";
         }
 
-        shoot(text) {
-            let div = document.createElement('div');
-            div.style.position = 'absolute';
-            div.style.left = this.domWidth + 'px';
-            div.style.top = (this.domHeight +10+ (Math.random() * 50)) * +Math.random().toFixed(2) + 'px';
-            div.style.whiteSpace = 'nowrap';
-            div.style.color = '#' + Math.floor(Math.random() * 256).toString(10);
+        // 图表初始化
+        var dom = document.getElementById("container");
+        if (dom) {
+            var myChart = echarts.init(dom);
+            var option;
 
-            div.innerText = text;
-            this.dom.appendChild(div);
-
-            let roll = (timer) => {
-                let now = +new Date();
-                roll.last = roll.last || now;
-                roll.timer = roll.timer || timer;
-                let left = div.offsetLeft;
-                let rect = div.getBoundingClientRect();
-                if (left < (rect.left - rect.right)) {
-                    this.dom.removeChild(div);
-                } else {
-                    if (now - roll.last >= roll.timer) {
-                        roll.last = now;
-                        left -= 3;
-                        div.style.left = left + 'px';
+            option = {
+                title: {
+                    text: '本月签到统计',
+                    subtext: '学生统计/人',
+                    left: 'center'
+                },
+                tooltip: {
+                    trigger: 'item'
+                },
+                legend: {
+                    orient: 'vertical',
+                    left: 'right'
+                },
+                series: [
+                    {
+                        type: 'pie',
+                        radius: '50%',
+                        data: [
+                            {% for c, n in courses.items() %}
+                            {value: {{ n }}, name: '{{ c.c_name }}'},
+                            {% endfor %}
+                        ],
+                        emphasis: {
+                            itemStyle: {
+                                shadowBlur: 10,
+                                shadowOffsetX: 0,
+                                shadowColor: 'rgba(0, 0, 0, 0.5)'
+                            }
+                        }
                     }
-                    requestAnimationFrame(roll);
-                }
-            }
-            roll(25);
+                ]
+            };
+
+            myChart.setOption(option);
         }
-
-    }
-
-
-     var socket = io("ws://127.0.0.1:5000");
-
-    socket.on("connect", function () {
-      //  $("#sid").text("客户端：" + socket.id)
-    });
-       const textList = [];
-    var newmsg ='';
-    let barage = new Barrage('content');
-     var i=200;
-    socket.on("my_response", function (msg) {
-        newmsg = msg.data ;
-        console.log(newmsg);
-
-         barage.shoot(newmsg);
-    });
-
-     function show() {
-       textList.forEach((s) => {
-        sleep(700); // 休眠1秒（1000毫秒）
-        barage.shoot(s);
-         console.log(s);
-       });
-     };
-
-
-     function sleep(ms) {
-       return new Promise(resolve => setTimeout(resolve, ms));
-     };
-
-   // 当你想删除已播放的弹幕时，可以调用这个函数
-function removePlayedBarrages() {
-    var barrages = document.querySelectorAll('.barrage-item'); // 选择所有弹幕元素
-    barrages.forEach(function(barrage) {
-        // 判断弹幕是否已经在屏幕上移动出视野
-        if (barrage.getBoundingClientRect().bottom < 0) {
-            // 移除已经不可见的弹幕
-            barrage.remove();
-        }
-    });
-}
-
-// 定时调用函数，例如每秒钟调用一次
-setInterval(removePlayedBarrages, 1000);
-
-
-
-})()
-
-</script>
-
+    </script>
 </body>
-
-<style>
-
-* {
-    box-sizing: border-box;
-    outline: none;
-}
-
-p {
-    margin: .5em;
-    word-break: break-all;
-}
-
-.container22 {
-    position: relative;
-    width: 90%;
-    height: 200px;
-    margin-left: 5%;
-    margin: auto;
-
-}
-
-.content {
-
-    width: 100%;
-    height: 100%;
-    float: left;
-    border: 1px solid #ccc;
-}
-
-/* 自定义开关按钮的样式 */
-.slider {
-font-family:'Microsoft YaHei';
-color :#777777;
-
-	font-size: 12px;
-	padding : 0 15px 0 0;
-}
-/* 重置checkbox样式 */
-input[type="checkbox"] {
-  margin: 0;
-  padding: 0;
-  vertical-align: middle;
-  /* 隐藏原生的checkbox样式 */
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
-  width: 20px; /* 根据需要设置宽度 */
-  height: 20px; /* 根据需要设置高度 */
-  border: 1px solid #999; /* 设置边框 */
-}
-
-/* 当checkbox被选中时的样式 */
-input[type="checkbox"]:checked {
-  background-color: blue; /* 选中时的背景颜色 */
-}
-
-/* 对label进行样式设置 */
-label {
-  display: inline-flex;
-  align-items: center; /* 垂直居中 */
-  margin-left: 10px; /* 根据需要设置间距 */
-}
-
-/* 隐藏或显示元素的基本样式 */
-#myElement {
-  display: none;
-}
-
-
-
-</style>
+<footer>
+    <p>线下大学课堂考勤与互动系统 &copy; 2025</p>
+</footer>
 </html>

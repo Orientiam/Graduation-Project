@@ -1,94 +1,238 @@
 <!doctype html>
 <html lang="zh-CN">
 <head>
+    <title>课堂信息管理系统</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" type="text/css" href="../static/css/4.css" />
+    <link rel="stylesheet" type="text/css" href="../static/css/5.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            font-family: 'Arial', sans-serif;
+        }
 
-<title>课堂信息管理系统</title>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        .container_1170 {
+            max-width: 1170px;
+            margin: 0 auto;
+            padding: 20px;
+        }
 
-<link rel="stylesheet" type="text/css" href="../static/css/4.css" />
-<link rel="stylesheet" type="text/css" href="../static/css/5.css" />
+        .sl_log_top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
 
+        .logo_1 {
+            display: flex;
+            align-items: center;
+        }
 
+        .logo_1 img {
+            height: 40px;
+            margin-right: 10px;
+        }
+
+        .logo_1 span {
+            font-size: 24px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .sl_log_bor4 {
+            display: flex;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .sl_log_lf {
+            flex: 1;
+            padding: 20px;
+        }
+
+        .sl_log_lf img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 5px;
+        }
+
+        .sl_log_rt {
+            flex: 1;
+            padding: 40px;
+            background-color: #f8f9fa;
+        }
+
+        .form-horizontal {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .tab-content {
+            margin-top: 20px;
+        }
+
+        .tab-pane {
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        h5 {
+            color: #333;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .input-group {
+            display: flex;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+
+        .input-group-addon {
+            background-color: #f1f1f1;
+            padding: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .input-group-addon img {
+            width: 16px;
+            height: 16px;
+        }
+
+        .form-control {
+            border: none;
+            padding: 10px 15px;
+            flex: 1;
+            outline: none;
+        }
+
+        .btn-primary {
+            background-color: #4a6cf7;
+            border: none;
+            border-radius: 5px;
+            padding: 12px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            background-color: #3a5bd9;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .flash {
+            margin-top: 20px;
+            padding: 10px;
+            border-radius: 5px;
+            text-align: center;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 20px;
+            background-color: #2c3e50;
+            color: white;
+            margin-top: 30px;
+        }
+
+        .iocn {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .iocn i {
+            font-size: 24px;
+            color: #4a6cf7;
+            margin: 0 10px;
+        }
+    </style>
 </head>
-<body style="background:#fafafa;">
+<body>
 
+<div class="container container_1170">
+    <div class="sl_log_top">
+        <div class="logo_1">
+            <img src="../static/picture/scnu_icon.jpg" />
+            <span id="xtmc">课堂信息管理系统</span>
+        </div>
+    </div>
 
-	<div class="container container_1170">
-		<div class="row sl_log_top">
-			<div class="col-sm-8 logo_1"><img src="../static/picture/1.png" style="margin-top:-3px" />
-				<span id="xtmc">课堂信息管理系统</span>
-			</div>
-			<div class="col-sm-4 text-right hidden-xs">
+    <div class="sl_log_bor4">
+        <div class="sl_log_lf slideShow">
+            <img class="img-responsive" src="../static/picture/scnu_building.jpg" />
+        </div>
 
+        <div class="sl_log_rt">
+            <form class="form-horizontal" role="form" action='{{ url_for('.login') }}' method="post">
+                <input type="hidden" id="csrftoken" name="csrftoken" value=""/>
 
-			</div>
-		</div>
-		<div class="row sl_log_bor4">
+                <div class="iocn">
+                    <i class="fas fa-user-graduate"></i>
+                </div>
 
-			<div class="col-sm-8 hidden-xs sl_log_lf slideShow">
-				<!-- 0不轮换图片-->
-					<img class="img-responsive" src="../static/picture/loginimg.png" />
-			</div>
-			<div class="col-sm-4 sl_log_rt">
-					<form class="form-horizontal" role="form" action='{{ url_for('.login') }}' method="post">
-					<input type="hidden" id="csrftoken" name="csrftoken" value=""/>
-					<div>
+                <div class="tab-content">
+                    <div id="home" class="tab-pane in active">
+                        <h5>欢迎登录</h5>
 
-						<div class="tab-content">
-							<div id="home" class="tab-pane in active">
+                        <div class="form-group">
+                            <div class="input-group">
+                                <div class="input-group-addon">
+                                    <i class="fas fa-user"></i>
+                                </div>
+                                <input type="text" class="form-control" name="username" placeholder="用户名" autocomplete="off">
+                            </div>
+                        </div>
 
-									<h5>欢迎登录</h5>
+                        <div class="form-group">
+                            <div class="input-group">
+                                <div class="input-group-addon">
+                                    <i class="fas fa-lock"></i>
+                                </div>
+                                <input type="password" class="form-control" name="password" placeholder="密码" autocomplete="new-password">
+                            </div>
+                        </div>
 
-								<!-- 防止浏览器自动填充密码 -->
-								<input type="text" style="display: none;" autocomplete="off"/>
-								<input type="password" style="display: none;" autocomplete="off"/>
-								<!-- 防止浏览器自动填充密码 end -->
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary btn-block" id="dl">登 录</button>
+                        </div>
 
+                        <h5>角色：教师</h5>
 
-									<p style="display: none;" id="tips" class="bg_danger sl_danger">
-									</p>
+                        <div class="form-group">
+                            {% for message in get_flashed_messages() %}
+                                <div class="flash alert alert-danger" role="alert" id="dlktsxx">{{ message }}</div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 
-								<div class="form-group">
-									<div class="input-group">
-										<div class="input-group-addon"><img src="../static/picture/user.png" width="16" height="16" /></div>
-										<input type="text" class="form-control" name="username" value="" placeholder="用户名" onblur="" autocomplete="off">
-									</div>
-								</div>
-								<div class="form-group">
-									<div class="input-group">
-										<div class="input-group-addon"><img src="../static/picture/pass.png" width="16" height="16" /></div>
-										<input type="password" name="mm" id="hidMm" style="display:none" >
-										<input type="text" class="form-control" name="password" id="mm" value="" placeholder="密码" autocomplete="new-password"  onfocus="this.type='password'">
-										<input type="password" style="display:none;">
-									</div>
-								</div>
-								<div class="form-group">
-									<button type="submit" class="btn btn-primary btn-block" id="dl">登 录</button>
-								</div>
-{#                                <div class = "form-group">#}
-{#									<a href="" id="authJwglxtLoginURL" class="checkbox pull-right">点击注册</a>#}
-{#								</div>#}
-{#                                #}
-                                  <h5>角色：学生、教师、管理员</h5>
-								<div class="form-group">
-                                    {% for message in get_flashed_messages() %}
-                                       <div class="flash alert alert-danger" role="alert" id="dlktsxx">{{ message }}</div>
-                                    {% endfor %}
-								</div>
-							</div>
-						</div>
-					</div>
-				</form>
-			</div>
-		</div>
-	</div>
-
-
-<!-- footer -->
 <div id="footerID" class="footer">
-	<p></p>
+    <p>&copy; 2023 课堂信息管理系统</p>
 </div>
 
 </body>
-
 </html>
