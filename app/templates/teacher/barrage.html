@@ -238,6 +238,25 @@
                     let rect = this.dom.getBoundingClientRect();
                     this.domWidth = rect.right - rect.left;
                     this.domHeight = rect.bottom - rect.top;
+                    this.barragePositions = []; // 用于记录当前弹幕的垂直位置和高度
+                }
+
+                // 检查新弹幕是否与现有弹幕重叠
+                checkOverlap(newTop, newHeight) {
+                    return this.barragePositions.some(position => {
+                        const existingTop = position.top;
+                        const existingHeight = position.height;
+                        return newTop < existingTop + existingHeight && newTop + newHeight > existingTop;
+                    });
+                }
+
+                // 找到一个不重叠的垂直位置
+                findAvailablePosition(newHeight) {
+                    let availableTop = (this.domHeight + 10 + (Math.random() * 50)) * Math.random().toFixed(2);
+                    while (this.checkOverlap(availableTop, newHeight)) {
+                        availableTop = (this.domHeight + 10 + (Math.random() * 50)) * Math.random().toFixed(2);
+                    }
+                    return availableTop;
                 }
 
                 shoot(text) {
@@ -245,7 +264,17 @@
                     div.className = 'barrage-item';
                     div.style.position = 'absolute';
                     div.style.left = this.domWidth + 'px';
-                    div.style.top = (this.domHeight + 10 + (Math.random() * 50)) * Math.random().toFixed(2) + 'px';
+
+                    // 获取弹幕的高度
+                    div.style.top = '0'; // 暂时设置为0，以便获取高度
+                    this.dom.appendChild(div);
+                    const newHeight = div.offsetHeight;
+                    div.style.top = ''; // 清除临时设置
+
+                    // 找到一个不重叠的垂直位置
+                    const newTop = this.findAvailablePosition(newHeight);
+                    div.style.top = newTop + 'px';
+
                     div.style.whiteSpace = 'nowrap';
                     div.style.color = '#' + Math.floor(Math.random() * 256).toString(16).padStart(2, '0');
                     div.style.backgroundColor = '#1aad19';
@@ -253,6 +282,12 @@
                     div.style.borderRadius = '5px';
                     div.innerText = text;
                     this.dom.appendChild(div);
+
+                    // 记录新弹幕的位置和高度
+                    this.barragePositions.push({
+                        top: parseFloat(newTop),
+                        height: newHeight
+                    });
 
                     let roll = (timer) => {
                         let now = +new Date();
@@ -275,6 +310,19 @@
                 }
             }
 
+            // 定时移除已经播放过的弹幕并更新位置记录
+            function removePlayedBarrages(barrageInstance) {
+                const barrages = document.querySelectorAll('.barrage-item');
+                barrages.forEach(function(barrage) {
+                    if (barrage.getBoundingClientRect().right < 0) {
+                        barrage.remove();
+                        // 更新位置记录
+                        barrageInstance.barragePositions = barrageInstance.barragePositions.filter(pos =>
+                            pos.top !== parseFloat(barrage.style.top) || pos.height !== barrage.offsetHeight
+                        );
+                    }
+                });
+            }
             var socket = io("ws://127.0.0.1:5000");
 
             socket.on("connect", function () {
