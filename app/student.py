@@ -148,6 +148,7 @@ def home():
             dict_results['course']=course[0].c_name
             dict_results['time']=str(i.time)
             dict_results['result']=i.result
+            dict_results['location'] =course[0].location
             records.append(dict_results)
         results["data"]=records
         results["msg"]="ok"
